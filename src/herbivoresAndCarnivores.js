@@ -31,8 +31,10 @@ class Herbivore extends Animal {
   decreaseHealth(amount) {
     this.health -= amount;
 
-    if (this.health <= 0) {
+    if (this.health < 0) {
       this.health = 0;
+    }
+    if (this.health === 0) {
       Animal.removeDeadAnimal(this);
     }
   }
@@ -40,7 +42,7 @@ class Herbivore extends Animal {
 
 class Carnivore extends Animal {
   bite(prey) {
-    if (prey.hidden || prey instanceof Carnivore || prey.health <= 0) {
+    if (!(prey instanceof Herbivore) || prey.hidden || prey.health <= 0) {
       return;
     }
     prey.decreaseHealth(50);
